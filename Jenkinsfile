@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        TELEGRAM_CHAT_ID = '5266216179'
+        TELEGRAM_CHAT_ID = '6842254213'
     }
 
     stages {
