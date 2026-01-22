@@ -27,7 +27,7 @@ pipeline {
             steps {
                 sh '''
                 docker run -d \
-                -p 3000:3000
+                -p 3000:3000 \
                 --name node-app \
                 node-jenkins-app
                 '''
