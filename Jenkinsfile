@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        TELEGRAM_TOKEN = credentials('telegram-token')
+        TELEGRAM_CHAT_ID = '6842254213'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -10,7 +15,10 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t node-jenkins-app .'
+                sh '''
+                echo "Building app....
+                docker build -t node-app .
+                '''
             }
         }
 
@@ -32,6 +40,24 @@ pipeline {
                 node-jenkins-app
                 '''
             }
+        }
+    }
+
+    post {
+        success {
+            sh """
+            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage \
+            -d chat_id=${TELEGRAM_CHAT_ID} \
+            -d text="✅ Jenkins Build SUCCESS\nJob: ${JOB_NAME}\nBuild: #${BUILD_NUMBER}"
+            """
+        }
+
+        failure {
+        sh """
+        curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage \
+        -d chat_id=${TELEGRAM_CHAT_ID} \
+        -d text="❌ Jenkins Build FAILED\nJob: ${JOB_NAME}\nBuild: #${BUILD_NUMBER}"
+        """
         }
     }
 }
