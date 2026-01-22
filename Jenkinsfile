@@ -14,10 +14,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh '''
-                echo "Building app....
-                docker build -t node-app .
-                '''
+                sh 'docker build -t node-jenkins-app .'
             }
         }
 
