@@ -55,7 +55,7 @@ pipeline {
         failure {
         sh """
         curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage \
-        -d chat_id=${∂} \
+        -d chat_id=${TELEGRAM_CHAT_ID} \
         -d text="❌ Jenkins Build FAILED\nJob: ${JOB_NAME}\nBuild: #${BUILD_NUMBER}"
         """
         }
