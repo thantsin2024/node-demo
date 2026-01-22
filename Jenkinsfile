@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         TELEGRAM_TOKEN = credentials('telegram-token')
-        TELEGRAM_CHAT_ID = '-5266216179'
+        TELEGRAM_CHAT_ID = '6842254213'
     }
 
     stages {
@@ -53,11 +53,11 @@ pipeline {
         }
 
         failure {
-        sh """
-        curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage \
-        -d chat_id=${TELEGRAM_CHAT_ID} \
-        -d text="❌ Jenkins Build FAILED\nJob: ${JOB_NAME}\nBuild: #${BUILD_NUMBER}"
-        """
+            sh """
+            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage \
+            -d chat_id=${TELEGRAM_CHAT_ID} \
+            -d text="❌ Jenkins Build FAILED\nJob: ${JOB_NAME}\nBuild: #${BUILD_NUMBER}"
+            """
         }
     }
 }
